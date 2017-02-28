@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <health.moodow.moodoow.util.interf.TopBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.91"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/margin_vertical_interact_graph"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_weight="0.15">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal"
+            android:layout_weight="0">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jour"
+                android:textColor="@color/colorPrimary"/>
+
+            <!--TODO remplacer par un datepicker-->
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:layout_marginLeft="10dp"
+                android:text="21 Septembre 2016"
+                android:textColor="@color/colorWhite"
+                android:background="@color/colorPrimary">
+            </Button>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_vertical_interact"
+            android:padding="@dimen/margin_vertical_interact"
+            android:background="@drawable/out_grey_line"
+            android:orientation="horizontal"
+            android:layout_weight="0.33">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/margin_vertical_interact"
+                android:layout_weight="0.6"
+                android:src="@drawable/smile"
+                android:scaleType="fitStart"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_vertical_interact"
+                android:layout_weight="0.1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_vertical_interact"
+            android:padding="@dimen/margin_vertical_interact"
+            android:background="@drawable/out_grey_line"
+            android:orientation="horizontal"
+            android:layout_weight="0.33">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/margin_vertical_interact"
+                android:layout_weight="0.6"
+                android:src="@drawable/mouep"
+                android:scaleType="fitStart"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_vertical_interact"
+                android:layout_weight="0.1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_vertical_interact"
+            android:padding="@dimen/margin_vertical_interact"
+            android:background="@drawable/out_grey_line"
+            android:orientation="horizontal"
+            android:layout_weight="0.33">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/margin_vertical_interact"
+                android:layout_weight="0.6"
+                android:src="@drawable/bad"
+                android:scaleType="fitStart"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_vertical_interact"
+                android:layout_weight="0.1"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <health.moodow.moodoow.util.interf.MenuLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.91"/>
+</LinearLayout>

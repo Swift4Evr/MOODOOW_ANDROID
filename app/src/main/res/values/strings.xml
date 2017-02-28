@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MOODOOW</string>
+    <string name="id_co">Identifiant</string>
+    <string name="mdp_co">Mot de passe</string>
+    <string name="co_bt_txt">Connexion</string>
+    <string name="create_bt_txt">Créer un compte</string>
+
+    <string-array name="range_array">
+        <item>Journée</item>
+        <item>Semaine</item>
+        <item>Mois</item>
+        <item>Trimestre</item>
+        <item>Année</item>
+    </string-array>
+
+</resources>

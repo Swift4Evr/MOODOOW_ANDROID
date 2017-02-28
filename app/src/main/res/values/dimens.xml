@@ -1,0 +1,10 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">20dp</dimen>
+    <dimen name="activity_vertical_margin">40dp</dimen>
+    <dimen name="margin_edit_cote">20dp</dimen>
+    <dimen name="margin_edit_top">5dp</dimen>
+    <dimen name="margin_edit_bott">25dp</dimen>
+    <dimen name="margin_vertical_interact">15dp</dimen>
+    <dimen name="margin_vertical_interact_graph">25dp</dimen>
+</resources>
