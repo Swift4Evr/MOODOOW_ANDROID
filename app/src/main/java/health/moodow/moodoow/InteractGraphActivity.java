@@ -8,11 +8,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by matthieubravo on 28/02/2017.
  */
 
 public class InteractGraphActivity extends Activity {
+
 
     private SharedPreferences preferences;
     @Override
@@ -22,6 +27,7 @@ public class InteractGraphActivity extends Activity {
 
         preferences = getSharedPreferences("preferences", MODE_PRIVATE);
         setMoodCount();
+
     }
 
     private void setMoodCount() {
