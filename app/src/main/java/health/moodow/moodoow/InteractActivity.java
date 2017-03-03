@@ -3,11 +3,13 @@ package health.moodow.moodoow;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -29,14 +31,24 @@ public class InteractActivity extends Activity {
     private int lastHour = -1;
 
     /** moyenne de l'heure en cours */
-    private double moyHour = Integer.MIN_VALUE;
+    private int moyHour = Integer.MIN_VALUE;
+
+    /** smiley représentant l'état actuel */
+    private ImageView actuSmiley;
 
     private SharedPreferences preferences;
+
+    /** nombre de chaque humeur dans l'heure */
+    private int smile = 0;
+    private int mouep = 0;
+    private int bad = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interact);
+
+        actuSmiley = (ImageView) findViewById(R.id.smileyActu);
 
         preferences = getSharedPreferences("preferences", MODE_PRIVATE);
     }
@@ -72,7 +84,7 @@ public class InteractActivity extends Activity {
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.scale);
         view.startAnimation(anim);
 
-        double tag = Integer.parseInt(view.getTag().toString());
+        int tag = Integer.parseInt(view.getTag().toString());
 
         System.out.println(tag);
 
@@ -82,35 +94,68 @@ public class InteractActivity extends Activity {
 
         //reset moyenne de l'heure
         if(hour != lastHour){
-            switch((int)tag){
-                case 1:
-                    moyHour = 20.0;
-                    break;
+            //TODO enregistrer la dernière valeur dans le JSON
+        }
+
+        if(moyHour == Integer.MIN_VALUE){
+            switch (tag) {
                 case 2:
-                    moyHour = 10.0;
+                    moyHour = 20;
                     break;
-                case 3:
-                    moyHour = 0.0;
+                case 1:
+                   moyHour = 10;
                     break;
-            }
-        } else {
-
-            if(moyHour == Integer.MIN_VALUE){
-                moyHour = tag;
-            }
-
-            double newMoy = (moyHour + tag) / 2.0;
-
-            if (newMoy > 0.0 && newMoy <= 20.0) {
-                moyHour = newMoy;
+                case 0:
+                    moyHour = 0;
+                    break;
             }
         }
+
+        int newMoy = moyHour;
+        switch (tag) {
+            case 2:
+                newMoy++;
+                smile++;
+                break;
+            case 1:
+                if(newMoy>10){
+                    newMoy--;
+                } else if(newMoy<10){
+                    newMoy++;
+                }
+                mouep++;
+                break;
+            case 0:
+                newMoy--;
+                bad++;
+                break;
+        }
+
+        if (newMoy >= 0 && newMoy <= 20) {
+            moyHour = newMoy;
+        }
+
+        changeSmiley();
 
         lastHour = hour;
 
         System.out.println(moyHour);
 
         //ajouterPreferences(mood, 1);
+    }
+
+    /**
+     * Changer le smiley d'humeur actuelle
+     * suivant la moyenne
+     */
+    private void changeSmiley(){
+        if(moyHour < 7){
+            actuSmiley.setImageResource(R.drawable.bad);
+        } else if(moyHour < 13){
+            actuSmiley.setImageResource(R.drawable.mouep);
+        } else {
+            actuSmiley.setImageResource(R.drawable.smile);
+        }
     }
 
     /**
