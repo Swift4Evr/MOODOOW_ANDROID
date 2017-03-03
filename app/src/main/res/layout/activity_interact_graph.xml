@@ -112,7 +112,7 @@
                     android:textSize="12sp"
                     android:textAlignment="center"
                     android:text="20"
-                    android:id="@+id/textView" />
+                    android:id="@+id/countSmile" />
 
             </LinearLayout>
 
@@ -136,6 +136,7 @@
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textAlignment="center"
+                    android:id="@+id/countMouep"
                     android:text="20"/>
 
             </LinearLayout>
@@ -160,6 +161,7 @@
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textAlignment="center"
+                    android:id="@+id/countBad"
                     android:text="20"/>
 
             </LinearLayout>
