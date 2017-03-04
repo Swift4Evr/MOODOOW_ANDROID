@@ -6,6 +6,12 @@ package health.moodow.moodoow;
 
 public class Hour {
 
+    /** id */
+    private int id;
+
+    /** date */
+    private String date;
+
     /** heure */
     private int hour;
 
@@ -21,12 +27,22 @@ public class Hour {
 
     }
 
-    public Hour(int hour, int smile, int mouep, int bad, int moyHour) {
+    public Hour(int id, String date, int hour, int smile, int mouep, int bad, int moyHour) {
+        this.id = id;
+        this.date = date;
         this.hour = hour;
         this.smile = smile;
         this.mouep = mouep;
         this.bad = bad;
         this.moyHour = moyHour;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public void setHour(int hour) {
@@ -49,6 +65,14 @@ public class Hour {
         this.moyHour = moyHour;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
     public int getHour() {
         return hour;
     }
@@ -68,4 +92,5 @@ public class Hour {
     public int getMoyHour() {
         return moyHour;
     }
+
 }

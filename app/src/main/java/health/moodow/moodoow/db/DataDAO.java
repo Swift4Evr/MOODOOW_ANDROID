@@ -6,18 +6,13 @@ import android.database.Cursor;
 
 import java.util.ArrayList;
 
-import dev.matthieubravo.fadb.MainActivity;
-import dev.matthieubravo.fadb.R;
-import dev.matthieubravo.fadb.filmsmanager.Day;
-import health.moodow.moodoow.Day;
+import health.moodow.moodoow.Hour;
 
 /**
- * Accès BDD Day
+ * Accès BDD Hour
  * Gère les actions à réaliser avec la base de données
  * - select
  * - insert
- * - update
- * - delete
  */
 public class DataDAO extends DAO {
 
@@ -30,123 +25,80 @@ public class DataDAO extends DAO {
     }
 
     /**
-     * Créé un film dans la bdd
+     * Créé une heure dans la bdd
      *
-     * @param d Le film à ajouter
-     * @return l'id du film créé
+     * @param h l'heure a ajouter
+     * @return l'id de l'heure
      */
-    public int create(Day d) {
+    public int create(Hour h) {
         ContentValues value = new ContentValues();
         
-        value.put("date", d.getDate());
-        int id = (int) mDb.insert("days", null, value);
+        value.put("date", h.getDate());
+        value.put("hour", h.getHour());
+        value.put("smile", h.getSmile());
+        value.put("mouep", h.getMouep());
+        value.put("bad", h.getBad());
+        value.put("moy_hour", h.getDate());
+        int id = (int) mDb.insert("save", null, value);
 
         return id;
     }
 
     /**
-     * Récupère tous les films enregistrés dans la base de données
+     * Récupère tous les heures enregistrés dans la base de données
      *
-     * @return Les films présents dans la base de données
+     * @return Les heures présents dans la base de données
      */
-    public Day[] selectAll() {
-        ArrayList<Day> films = new ArrayList<Day>();
+    public Hour[] selectAll() {
+        ArrayList<Hour> hours = new ArrayList<Hour>();
 
-        Cursor curseur = mDb.rawQuery("SELECT * FROM days ORDER BY id DESC", null);
+        Cursor curseur = mDb.rawQuery("SELECT * FROM save ORDER BY id DESC", null);
         while (curseur.moveToNext()) {
 
-           /* int id = curseur.getInt(0);
-            String artwork = curseur.getString(1);
-            String title = curseur.getString(2);
-            String date = curseur.getString(3);
-            int rating = curseur.getInt(4);
-            int userRating = curseur.getInt(5);
-            boolean isSee = curseur.getInt(6)==1;
-            boolean isToSee = curseur.getInt(7)==1;
-            String synopsis = curseur.getString(8);
-            String titleReview = curseur.getString(9);
-            String review = curseur.getString(10);
-
-            Day film = new Day(id, artwork, title, date, rating, userRating, isSee,
-                                 isToSee, synopsis, titleReview, review);
-            films.add(film);*/
-        }
-
-        // Si il n'y a aucun film alors on en créé des nouveaux
-        if (films.isEmpty()) {
-            //creerDays();
-            // On recharge la fonction
-        }
-
-        return films.toArray(new Day[films.size()]);
-    }
-
-
-    /**
-     * Récupère les films les mieux notés
-     *
-     * @param value nombre de films à récupérer
-     * @return les films favoris
-     */
-    public Day[] selectTop(int value) {
-        ArrayList<Day> films = new ArrayList<Day>();
-
-        Cursor curseur = mDb.rawQuery("SELECT * FROM days " + "ORDER BY note DESC LIMIT 0, ?",
-                new String[]{String.valueOf(value)});
-       /*while (curseur.moveToNext()) {
-
             int id = curseur.getInt(0);
-            String artwork = curseur.getString(1);
-            String title = curseur.getString(2);
-            String date = curseur.getString(3);
-            int rating = curseur.getInt(4);
-            int userRating = curseur.getInt(5);
-            boolean isSee = curseur.getInt(6)==1;
-            boolean isToSee = curseur.getInt(7)==1;
-            String synopsis = curseur.getString(8);
-            String titleReview = curseur.getString(9);
-            String review = curseur.getString(10);
+            String date = curseur.getString(1);
+            int hourBD = curseur.getInt(2);
+            int smile = curseur.getInt(3);
+            int mouep = curseur.getInt(4);
+            int bad = curseur.getInt(5);
+            int moyHour = curseur.getInt(6);
 
-            //Day film = new Day(id, artwork, title, date, rating, userRating, isSee,
-              //      isToSee, synopsis, titleReview, review);
-            films.add(film);
+            Hour hour = new Hour(id, date, hourBD, smile, mouep, bad, moyHour);
+            hours.add(hour);
         }
-        return films.toArray(new Day[films.size()]);*/
+        return hours.toArray(new Hour[hours.size()]);
     }
 
+
     /**
-     * Selectionne un film en particulier
+     * Selectionne un heureen particulier
      *
-     * @param id id du film à select
-     * @return le film selectionné
+     * @param date id du heureà select
+     * @return le heureselectionné
      */
-    public Day find(int id) {
-        Cursor curseur = mDb.rawQuery("SELECT * FROM days WHERE id = ?", new String[]{String.valueOf(id)});
+    public Hour findDay(String date) {
+        Cursor curseur = mDb.rawQuery("SELECT * FROM save WHERE date = ?", new String[]{date});
         curseur.moveToFirst();
 
-        /*String artwork = curseur.getString(1);
-        String title = curseur.getString(2);
-        String date = curseur.getString(3);
-        int rating = curseur.getInt(4);
-        int userRating = curseur.getInt(5);
-        boolean isSee = curseur.getInt(6)==1;
-        boolean isToSee = curseur.getInt(7)==1;
-        String synopsis = curseur.getString(8);
-        String titleReview = curseur.getString(9);
-        String review = curseur.getString(10);
+        int id = curseur.getInt(0);
+        String dateDB = curseur.getString(1);
+        int hourBD = curseur.getInt(2);
+        int smile = curseur.getInt(3);
+        int mouep = curseur.getInt(4);
+        int bad = curseur.getInt(5);
+        int moyHour = curseur.getInt(6);
 
-        Day film = new Day(id, artwork, title, date, rating, userRating, isSee,
-                isToSee, synopsis, titleReview, review);
+        Hour hour = new Hour(id, date, hourBD, smile, mouep, bad, moyHour);
 
-        return film;*/
+        return hour;
     }
 
     /**
-     * Modifie un film dans la bdd
+     * Modifie un heuredans la bdd
      * Met à jour les informations d'un film
-     * @param f film à modifier
-     */
-    public void update(Day f) {
+     * @param f heureà modifier
+
+    public void update(Hour f) {
 
         ContentValues value = new ContentValues();
         // On modifie les infos du film
@@ -154,14 +106,15 @@ public class DataDAO extends DAO {
 
         //mDb.update("film", value, "id = ?", new String[] {String.valueOf(f.getId())});
     }
-
+     */
 
     /**
-     * Supprime un film de la BDD
+     * Supprime un heurede la BDD
      *
-     * @param id ID du film à supprimer
-     */
+     * @param id ID du heureà supprimer
+
     public void delete(int id) {
         mDb.delete("film", "id = ?", new String[]{String.valueOf(id)});
     }
+     */
 }

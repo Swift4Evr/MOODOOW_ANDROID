@@ -20,6 +20,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import health.moodow.moodoow.db.DataDAO;
+
 import static android.R.attr.value;
 
 /**
@@ -30,7 +32,7 @@ public class InteractActivity extends Activity {
 
     /** gestion des dates */
     private Date date = new Date();
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH");
+    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH");
 
     /** dernière heure a laquelle il a appuyé sur un bouton*/
     private String lastDate = "";
@@ -97,12 +99,25 @@ public class InteractActivity extends Activity {
         String dateRecup = dateFormat.format(date);
 
         int hour = Integer.parseInt(dateRecup.substring(dateRecup.length()-2,dateRecup.length()));
+        String date = dateRecup.substring(0,dateRecup.length()-2);
+
+        System.out.println("date" + date);
 
         if(hour != lastHour){
-            //enregistrer les données actuelles
-            Hour hourSave = new Hour(lastHour, smile, mouep, bad, moyHour);
 
-            //obtenir la journée dans la BD et ajouter l'heure
+            //enregistrer les données actuelles
+            //----
+            Hour hourSave = new Hour(-1, date, lastHour, smile, mouep, bad, moyHour);
+
+            DataDAO dataDAO = new DataDAO(getApplicationContext());
+            dataDAO.open();
+            dataDAO.create(hourSave);
+
+            Hour hourTest = dataDAO.findDay(date);
+
+            System.out.println(hourTest.getBad());
+
+            //----
 
             smile = 0;
             mouep = 0;
