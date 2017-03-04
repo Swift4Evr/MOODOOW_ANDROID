@@ -12,9 +12,15 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static android.R.attr.value;
 
 /**
  * Created by matthieubravo on 28/02/2017.
@@ -92,9 +98,15 @@ public class InteractActivity extends Activity {
 
         int hour = Integer.parseInt(dateRecup.substring(dateRecup.length()-2,dateRecup.length()));
 
-        //reset moyenne de l'heure
         if(hour != lastHour){
-            //TODO enregistrer la dernière valeur dans le JSON
+            //enregistrer les données actuelles
+            Hour hourSave = new Hour(lastHour, smile, mouep, bad, moyHour);
+
+            //obtenir la journée dans la BD et ajouter l'heure
+
+            smile = 0;
+            mouep = 0;
+            bad = 0;
         }
 
         if(moyHour == Integer.MIN_VALUE){
@@ -165,6 +177,7 @@ public class InteractActivity extends Activity {
      * @param value value
      */
     private void ajouterPreferences(String etat, int value) {
+
         int val = preferences.getInt(etat, 0);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt(etat, value + val);
