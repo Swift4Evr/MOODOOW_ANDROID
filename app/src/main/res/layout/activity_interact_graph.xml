@@ -19,7 +19,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="horizontal"
             android:layout_weight="0">
 
@@ -92,7 +91,7 @@
             android:padding="8dp"
             android:background="@drawable/out_grey_line"
             android:orientation="horizontal"
-            android:layout_weight="0.21"
+            android:layout_weight="0.195"
             android:onClick="smileysClicked">
 
             <LinearLayout
@@ -112,7 +111,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.6"
+                    android:layout_weight="0.7"
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textAlignment="center"
@@ -137,7 +136,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.6"
+                    android:layout_weight="0.7"
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textAlignment="center"
@@ -162,7 +161,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.6"
+                    android:layout_weight="0.7"
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textAlignment="center"
@@ -195,7 +194,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_vertical_interact"
             android:layout_weight="0.12"
-            android:src="@drawable/smile"/>
+            android:src="@drawable/smile"
+            android:id="@+id/currentSmile"/>
 
     </LinearLayout>
 

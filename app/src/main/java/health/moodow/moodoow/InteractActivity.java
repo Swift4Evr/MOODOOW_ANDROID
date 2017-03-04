@@ -26,22 +26,12 @@ public class InteractActivity extends Activity {
     private Date date = new Date();
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH");
 
-    /** dernière heure a laquelle il a appuyé sur un bouton*/
-    private String lastDate = "";
-    private int lastHour = -1;
-
-    /** moyenne de l'heure en cours */
-    private int moyHour = Integer.MIN_VALUE;
 
     /** smiley représentant l'état actuel */
     private ImageView actuSmiley;
 
     private SharedPreferences preferences;
 
-    /** nombre de chaque humeur dans l'heure */
-    private int smile = 0;
-    private int mouep = 0;
-    private int bad = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +81,7 @@ public class InteractActivity extends Activity {
         int hour = Integer.parseInt(dateRecup.substring(dateRecup.length()-2,dateRecup.length()));
         String date = dateRecup.substring(0,dateRecup.length()-2);
 
+
         ClickSave clickSaveSave = new ClickSave();
         switch (tag) {
             case 2:
@@ -116,10 +107,9 @@ public class InteractActivity extends Activity {
 
         ArrayList<ClickSave> clickSaveTest = dataDAO.findDay(date);
 
-        double smile = 0;
-        double mouep = 0;
-        double bad = 0;
-        System.out.println("taille " + clickSaveTest.size());
+        int smile = 0;
+        int mouep = 0;
+        int bad = 0;
         for(int i = 0 ; i<clickSaveTest.size() ; i++){
             smile += clickSaveTest.get(i).getSmile();
             mouep += clickSaveTest.get(i).getMouep();
@@ -129,7 +119,7 @@ public class InteractActivity extends Activity {
         System.out.println("mouep " + mouep);
         System.out.println("bad " + bad);
         
-        double moyDuMom = (1.0*smile+0.0*mouep+-1.0*bad)/clickSaveTest.size();
+        double moyDuMom = (1.0*smile+0.5*mouep+0.0*bad)/clickSaveTest.size();
 
         System.out.println("moyenne de lheure en cours : " + moyDuMom);
 
