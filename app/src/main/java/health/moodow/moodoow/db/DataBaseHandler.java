@@ -13,8 +13,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     // Commande sql pour la création de la base de données
     private static final String SAVE_CREATE = "create table save (id integer primary key autoincrement, " +
-            "date varchar(200), hour integer(2), smile integer(10), mouep integer(10), " +
-            "bad integer(10), moy_hour integer(2));";
+            "date varchar(200), hour integer(2), smile integer(1), mouep integer(1), " +
+            "bad integer(1));";
 
     public DataBaseHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);

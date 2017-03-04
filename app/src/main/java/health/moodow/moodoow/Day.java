@@ -12,30 +12,30 @@ public class Day {
     private String date;
 
     /** tableau des heures de la journée */
-    private ArrayList<Hour> arrayListHour;
+    private ArrayList<ClickSave> arrayListClickSave;
 
     public Day(){
 
     }
 
-    public Day(String date, ArrayList<Hour> arrayListHour){
+    public Day(String date, ArrayList<ClickSave> arrayListClickSave){
         this.date = date;
-        this.arrayListHour = arrayListHour;
+        this.arrayListClickSave = arrayListClickSave;
     }
 
     public void setDate(String date) {
         this.date = date;
     }
 
-    public void addHour(Hour hour) {
-        this.arrayListHour.add(hour);
+    public void addHour(ClickSave clickSave) {
+        this.arrayListClickSave.add(clickSave);
     }
 
     public String getDate() {
         return date;
     }
 
-    public ArrayList<Hour> getArrayListHour() {
-        return arrayListHour;
+    public ArrayList<ClickSave> getArrayListClickSave() {
+        return arrayListClickSave;
     }
 }

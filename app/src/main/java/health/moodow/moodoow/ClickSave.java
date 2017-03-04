@@ -4,7 +4,7 @@ package health.moodow.moodoow;
  * Created by matthieubravo on 03/03/2017.
  */
 
-public class Hour {
+public class ClickSave {
 
     /** id */
     private int id;
@@ -20,21 +20,17 @@ public class Hour {
     private int mouep;
     private int bad;
 
-    /** moyenne de l'heure en cours */
-    private int moyHour = Integer.MIN_VALUE;
-
-    public Hour(){
+    public ClickSave(){
 
     }
 
-    public Hour(int id, String date, int hour, int smile, int mouep, int bad, int moyHour) {
+    public ClickSave(int id, String date, int hour, int smile, int mouep, int bad) {
         this.id = id;
         this.date = date;
         this.hour = hour;
         this.smile = smile;
         this.mouep = mouep;
         this.bad = bad;
-        this.moyHour = moyHour;
     }
 
     public void setId(int id) {
@@ -61,10 +57,6 @@ public class Hour {
         this.bad = bad;
     }
 
-    public void setMoyHour(int moyHour) {
-        this.moyHour = moyHour;
-    }
-
     public int getId() {
         return id;
     }
@@ -87,10 +79,6 @@ public class Hour {
 
     public int getBad() {
         return bad;
-    }
-
-    public int getMoyHour() {
-        return moyHour;
     }
 
 }

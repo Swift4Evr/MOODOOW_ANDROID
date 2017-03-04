@@ -3,26 +3,18 @@ package health.moodow.moodoow;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import health.moodow.moodoow.db.DataDAO;
-
-import static android.R.attr.value;
 
 /**
  * Created by matthieubravo on 28/02/2017.
@@ -88,102 +80,62 @@ public class InteractActivity extends Activity {
      */
     public void clickMood(View view) {
         String mood = view.getTag().toString();
+
         // Effectue une animation
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.scale);
         view.startAnimation(anim);
 
         int tag = Integer.parseInt(view.getTag().toString());
 
-        System.out.println(tag);
-
         String dateRecup = dateFormat.format(date);
-
         int hour = Integer.parseInt(dateRecup.substring(dateRecup.length()-2,dateRecup.length()));
         String date = dateRecup.substring(0,dateRecup.length()-2);
 
-        System.out.println("date" + date);
-
-        if(hour != lastHour){
-
-            //enregistrer les données actuelles
-            //----
-            Hour hourSave = new Hour(-1, date, lastHour, smile, mouep, bad, moyHour);
-
-            DataDAO dataDAO = new DataDAO(getApplicationContext());
-            dataDAO.open();
-            dataDAO.create(hourSave);
-
-            Hour hourTest = dataDAO.findDay(date);
-
-            System.out.println(hourTest.getBad());
-
-            //----
-
-            smile = 0;
-            mouep = 0;
-            bad = 0;
-        }
-
-        if(moyHour == Integer.MIN_VALUE){
-            switch (tag) {
-                case 2:
-                    moyHour = 20;
-                    break;
-                case 1:
-                   moyHour = 10;
-                    break;
-                case 0:
-                    moyHour = 0;
-                    break;
-            }
-        }
-
-        int newMoy = moyHour;
+        ClickSave clickSaveSave = new ClickSave();
         switch (tag) {
             case 2:
-                newMoy++;
-                smile++;
+                clickSaveSave = new ClickSave(-1, date, hour, 1, 0, 0);
+                actuSmiley.setImageResource(R.drawable.smile);
                 break;
             case 1:
-                if(newMoy>10){
-                    newMoy--;
-                } else if(newMoy<10){
-                    newMoy++;
-                }
-                mouep++;
+                clickSaveSave = new ClickSave(-1, date, hour, 0, 1, 0);
+                actuSmiley.setImageResource(R.drawable.mouep);
                 break;
             case 0:
-                newMoy--;
-                bad++;
+                clickSaveSave = new ClickSave(-1, date, hour, 0, 0, 1);
+                actuSmiley.setImageResource(R.drawable.bad);
                 break;
         }
 
-        if (newMoy >= 0 && newMoy <= 20) {
-            moyHour = newMoy;
+        //enregistrer les données actuelles
+        //----
+
+        DataDAO dataDAO = new DataDAO(getApplicationContext());
+        dataDAO.open();
+        dataDAO.create(clickSaveSave);
+
+        ArrayList<ClickSave> clickSaveTest = dataDAO.findDay(date);
+
+        double smile = 0;
+        double mouep = 0;
+        double bad = 0;
+        System.out.println("taille " + clickSaveTest.size());
+        for(int i = 0 ; i<clickSaveTest.size() ; i++){
+            smile += clickSaveTest.get(i).getSmile();
+            mouep += clickSaveTest.get(i).getMouep();
+            bad += clickSaveTest.get(i).getBad();
         }
+        System.out.println("smile " + smile);
+        System.out.println("mouep " + mouep);
+        System.out.println("bad " + bad);
+        
+        double moyDuMom = (1.0*smile+0.0*mouep+-1.0*bad)/clickSaveTest.size();
 
-        changeSmiley();
-
-        lastHour = hour;
-
-        System.out.println(moyHour);
+        System.out.println("moyenne de lheure en cours : " + moyDuMom);
 
         //ajouterPreferences(mood, 1);
     }
 
-    /**
-     * Changer le smiley d'humeur actuelle
-     * suivant la moyenne
-     */
-    private void changeSmiley(){
-        if(moyHour < 7){
-            actuSmiley.setImageResource(R.drawable.bad);
-        } else if(moyHour < 13){
-            actuSmiley.setImageResource(R.drawable.mouep);
-        } else {
-            actuSmiley.setImageResource(R.drawable.smile);
-        }
-    }
 
     /**
      * Ajoute des valeurs dans les preferences
