@@ -33,7 +33,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:background="@color/colorPrimary"
-                android:entries="@array/range_array">
+                android:entries="@array/range_array"
+                android:id="@+id/spinner">
             </Spinner>
 
         </LinearLayout>

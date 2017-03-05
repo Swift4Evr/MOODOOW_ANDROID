@@ -79,7 +79,7 @@ public class InteractActivity extends Activity {
 
         String dateRecup = dateFormat.format(date);
         int hour = Integer.parseInt(dateRecup.substring(dateRecup.length()-2,dateRecup.length()));
-        String date = dateRecup.substring(0,dateRecup.length()-2);
+        String date = dateRecup.substring(0,dateRecup.length()-3);
 
 
         ClickSave clickSaveSave = new ClickSave();
