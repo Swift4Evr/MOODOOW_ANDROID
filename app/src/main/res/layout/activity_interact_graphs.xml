@@ -38,7 +38,9 @@
                 android:layout_marginLeft="10dp"
                 android:text="21 Septembre 2016"
                 android:textColor="@color/colorWhite"
-                android:background="@color/colorPrimary">
+                android:background="@color/colorPrimary"
+                android:onClick="touchAction"
+                android:id="@+id/buttonPicker">
             </Button>
 
         </LinearLayout>
@@ -60,11 +62,10 @@
                 android:src="@drawable/smile"
                 android:scaleType="fitStart"/>
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart"
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chartSmile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_vertical_interact"
                 android:layout_weight="0.1"/>
 
         </LinearLayout>
@@ -86,11 +87,10 @@
                 android:src="@drawable/mouep"
                 android:scaleType="fitStart"/>
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart"
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chartMouep"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_vertical_interact"
                 android:layout_weight="0.1"/>
 
         </LinearLayout>
@@ -112,11 +112,10 @@
                 android:src="@drawable/bad"
                 android:scaleType="fitStart"/>
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart"
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chartBad"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_vertical_interact"
                 android:layout_weight="0.1"/>
 
         </LinearLayout>

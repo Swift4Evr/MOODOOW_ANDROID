@@ -5,4 +5,7 @@
     <color name="colorAccent">#75A9C2</color>
     <color name="colorWhite">#FFF</color>
     <color name="lightGrey">#DFE4E7</color>
+    <color name="green">#69AD30</color>
+    <color name="orange">#F2A131</color>
+    <color name="red">#E0272B</color>
 </resources>
