@@ -56,4 +56,8 @@ public class Coms {
     public String getText() {
         return text;
     }
+
+    public String toString() {
+        return date + " " + hour + " " + text;
+    }
 }

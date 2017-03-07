@@ -114,10 +114,9 @@ public class DataDAO extends DAO {
      * @return l'heure selectionné
      */
     public ArrayList<Coms> findDayComs(String date) {
-
         ArrayList<Coms> comsArray = new ArrayList<>();
-
-        Cursor curseur = mDb.rawQuery("SELECT * FROM comms WHERE date = ?", new String[]{date});
+        String q = "select * from comms where date like '"+date+"%'";
+        Cursor curseur = mDb.rawQuery(q, null);
         while (curseur.moveToNext()) {
 
             int id = curseur.getInt(0);
@@ -125,7 +124,7 @@ public class DataDAO extends DAO {
             String hourBD = curseur.getString(2);
             String text = curseur.getString(3);
 
-            Coms coms = new Coms(id, date, hourBD, text);
+            Coms coms = new Coms(id, dateDB, hourBD, text);
             comsArray.add(coms);
         }
 
