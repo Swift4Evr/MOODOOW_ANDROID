@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,13 +24,24 @@ import health.moodow.moodoow.db.DataDAO;
 
 public class InteractActivity extends Activity {
 
+    /** DB */
+    private  DataDAO dataDAO;
+
     /** gestion des dates */
     private Date date = new Date();
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH");
 
+    /** heure */
+    private int hour;
+
+    /** date */
+    private String dateRecup;
 
     /** smiley représentant l'état actuel */
     private ImageView actuSmiley;
+
+    /** edit texte des commentaires */
+    private EditText comsET;
 
     private SharedPreferences preferences;
 
@@ -38,9 +51,15 @@ public class InteractActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interact);
 
+        dataDAO = new DataDAO(getApplicationContext());
+        dataDAO.open();
+
         actuSmiley = (ImageView) findViewById(R.id.smileyActu);
+        comsET = (EditText) findViewById(R.id.comsET);
 
         preferences = getSharedPreferences("preferences", MODE_PRIVATE);
+
+
     }
 
     /**
@@ -77,8 +96,8 @@ public class InteractActivity extends Activity {
 
         int tag = Integer.parseInt(view.getTag().toString());
 
-        String dateRecup = dateFormat.format(date);
-        int hour = Integer.parseInt(dateRecup.substring(dateRecup.length()-2,dateRecup.length()));
+        dateRecup = dateFormat.format(date);
+        hour = Integer.parseInt(dateRecup.substring(dateRecup.length()-2,dateRecup.length()));
         String date = dateRecup.substring(0,dateRecup.length()-3);
 
 
@@ -100,9 +119,6 @@ public class InteractActivity extends Activity {
 
         //enregistrer les données actuelles
         //----
-
-        DataDAO dataDAO = new DataDAO(getApplicationContext());
-        dataDAO.open();
         dataDAO.create(clickSaveSave);
 
         ArrayList<ClickSave> clickSaveTest = dataDAO.findDay(date);
@@ -115,15 +131,35 @@ public class InteractActivity extends Activity {
             mouep += clickSaveTest.get(i).getMouep();
             bad += clickSaveTest.get(i).getBad();
         }
-        System.out.println("smile " + smile);
-        System.out.println("mouep " + mouep);
-        System.out.println("bad " + bad);
         
         double moyDuMom = (1.0*smile+0.5*mouep+0.0*bad)/clickSaveTest.size();
 
         System.out.println("moyenne de lheure en cours : " + moyDuMom);
 
         //ajouterPreferences(mood, 1);
+    }
+
+    public void saveComs(View sender){
+
+        if(comsET.getText().toString().length() > 2){
+
+            dateRecup = dateFormat.format(date);
+            hour = Integer.parseInt(dateRecup.substring(dateRecup.length()-2,dateRecup.length()));
+            String date = dateRecup.substring(0,dateRecup.length()-3);
+
+            Coms coms = new Coms(-1, date, hour, comsET.getText().toString());
+
+            dataDAO.createComs(coms);
+
+            System.out.println("coms" + dataDAO.findDayComs(date).get(0).getText());
+
+            comsET.setText("");
+
+            Toast.makeText(this, "Commentaire sauvegardé", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Commentaire pas assez long", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 

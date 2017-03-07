@@ -2,6 +2,7 @@ package health.moodow.moodoow;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +31,9 @@ public class InteractGraphsActivity extends Activity implements DatePickerDialog
     private Calendar calendar = new GregorianCalendar();
 
     private Button buttonPicker;
+
+    /** date a chercher pour la liste */
+    private String date;
 
     /** la bd */
     private DataDAO dataDAO;
@@ -78,6 +82,7 @@ public class InteractGraphsActivity extends Activity implements DatePickerDialog
 
     private void loadFromDay(String day){
         buttonPicker.setText(day);
+        date = day;
 
         ArrayList<ClickSave> clickSaves = dataDAO.findDay(day);
 
@@ -97,9 +102,15 @@ public class InteractGraphsActivity extends Activity implements DatePickerDialog
                 }
             }
 
-            moySmile.add(new BarEntry((float) i, (float) smile));
-            moyMouep.add(new BarEntry((float) i, (float) mouep));
-            moyBad.add(new BarEntry((float) i, (float) bad));
+            if(smile > -1) {
+                moySmile.add(new BarEntry((float) i, (float) smile));
+            }
+            if(mouep > -1) {
+                moyMouep.add(new BarEntry((float) i, (float) mouep));
+            }
+            if(bad > -1) {
+                moyBad.add(new BarEntry((float) i, (float) bad));
+            }
         }
 
         Description description = new Description();
@@ -139,13 +150,11 @@ public class InteractGraphsActivity extends Activity implements DatePickerDialog
         chart.setDrawBorders(false);
         chart.getXAxis().setLabelCount(5, true);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        chart.getXAxis().setDrawGridLines(false); // no grid lines
-        chart.getAxisLeft().setDrawGridLines(false); // no grid lines
-        chart.getAxisRight().setDrawGridLines(false); // no grid lines
-        chart.getAxisLeft().setLabelCount(5, true);
-        chart.getAxisLeft().setDrawLabels(false);
+        chart.getXAxis().setDrawGridLines(false);
+        chart.getAxisLeft().setDrawGridLines(false);
+        chart.getAxisRight().setDrawGridLines(false);
+        chart.getAxisLeft().setLabelCount(1, true);
         chart.getAxisRight().setDrawLabels(false);
-        chart.getAxisRight().setLabelCount(5, true);
         chart.getAxisRight().setDrawAxisLine(false);
         chart.setTouchEnabled(false);
         chart.setDragEnabled(false);
@@ -154,6 +163,7 @@ public class InteractGraphsActivity extends Activity implements DatePickerDialog
         chart.setScaleYEnabled(false);
         chart.setPinchZoom(false);
         chart.setDoubleTapToZoomEnabled(false);
+        chart.getAxisLeft().setAxisMinValue(0f);
         chart.invalidate(); // refresh
     }
 
@@ -172,5 +182,11 @@ public class InteractGraphsActivity extends Activity implements DatePickerDialog
         toLoad += "/" + year;
 
         return toLoad;
+    }
+
+    public void comsAction(View sender){
+        Intent intent = new Intent(this, ComsActivity.class);
+        intent.putExtra("date", date);
+        startActivity(intent);
     }
 }

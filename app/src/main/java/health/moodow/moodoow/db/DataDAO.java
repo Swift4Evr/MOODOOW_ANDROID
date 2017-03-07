@@ -7,6 +7,7 @@ import android.database.Cursor;
 import java.util.ArrayList;
 
 import health.moodow.moodoow.ClickSave;
+import health.moodow.moodoow.Coms;
 
 /**
  * Accès BDD ClickSave
@@ -43,6 +44,17 @@ public class DataDAO extends DAO {
         return id;
     }
 
+    public int createComs(Coms coms){
+        ContentValues value = new ContentValues();
+
+        value.put("date", coms.getDate());
+        value.put("hour", coms.getHour());
+        value.put("coms", coms.getText());
+        int id = (int) mDb.insert("comms", null, value);
+
+        return id;
+    }
+
     /**
      * Récupère tous les heures enregistrés dans la base de données
      *
@@ -69,7 +81,7 @@ public class DataDAO extends DAO {
 
 
     /**
-     * Selectionne un heureen particulier
+     * Selectionne une heure en particulier
      *
      * @param date id du heureà select
      * @return le heureselectionné
@@ -93,6 +105,31 @@ public class DataDAO extends DAO {
         }
 
         return clickSaves;
+    }
+
+    /**
+     * Selectionne un com d'une heure en particulier
+     *
+     * @param date id du heureà select
+     * @return l'heure selectionné
+     */
+    public ArrayList<Coms> findDayComs(String date) {
+
+        ArrayList<Coms> comsArray = new ArrayList<>();
+
+        Cursor curseur = mDb.rawQuery("SELECT * FROM comms WHERE date = ?", new String[]{date});
+        while (curseur.moveToNext()) {
+
+            int id = curseur.getInt(0);
+            String dateDB = curseur.getString(1);
+            int hourBD = curseur.getInt(2);
+            String text = curseur.getString(3);
+
+            Coms coms = new Coms(id, date, hourBD, text);
+            comsArray.add(coms);
+        }
+
+        return comsArray;
     }
 
     /**

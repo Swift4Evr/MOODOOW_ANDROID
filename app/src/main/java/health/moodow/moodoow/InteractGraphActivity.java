@@ -108,7 +108,7 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
 
 
         int[] joursArray = new int[0];
-        formatData(clickSaveTest, 23, 0, joursArray);
+        formatData(clickSaveTest, 23, 0);
 
         int smile = 0;
         int mouep = 0;
@@ -153,14 +153,9 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
             case 0: //charger par jour
                 System.out.println("date" + date);
                 clickSaveTest = dataDAO.findDay(date);
-                int[] joursArray = new int[0];
-                formatData(clickSaveTest, 24, 0, joursArray);
+                formatData(clickSaveTest, 24, 0);
                 break;
             case 1: //charger par semaine , compliqué car peut enjamber deux mois
-
-                int[] joursArrayS = new int[7];
-
-                int index = 0;
 
                 for(int i = dayNumInWeek-1; i>=0; i--){
 
@@ -195,22 +190,14 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
 
                     ArrayList<ClickSave> newClickSave = dataDAO.findDay(dateToSearch);
 
-                    joursArrayS[index] = newClickSave.size();
-                    index++;
-
                     for(int j = 0; j<newClickSave.size(); j++){
                         clickSaveTest.add(newClickSave.get(j));
                     }
+                    clickSaveTest.add(new ClickSave(Integer.MIN_VALUE));
                 }
-                System.out.println("taille2 "+clickSaveTest.size());
-                formatData(clickSaveTest, 7, 1, joursArrayS);
+                formatData(clickSaveTest, 7, 1);
                 break;
             case 2: //charger par mois
-
-                int[] joursArrayM = new int[dayNum];
-
-                int u = 0;
-
                 for(int i = dayNum-1; i>=0; i--){
 
                     int dayNumI = dayNum-i;
@@ -221,16 +208,14 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
 
                     ArrayList<ClickSave> newClickSave = dataDAO.findDay(dateToSearch);
 
-                    joursArrayM[u] = newClickSave.size();
-                    u++;
-
                     if(newClickSave != null) {
                         for (int j = 0; j < newClickSave.size(); j++) {
                             clickSaveTest.add(newClickSave.get(j));
                         }
                     }
+                    clickSaveTest.add(new ClickSave(Integer.MIN_VALUE));
                 }
-                formatData(clickSaveTest, DAYS_BY_MONTHS[calendar.get(Calendar.MONTH)], 2, joursArrayM);
+                formatData(clickSaveTest, DAYS_BY_MONTHS[calendar.get(Calendar.MONTH)], 2);
                 break;
             case 3: //charger par trimestre
 
@@ -242,9 +227,11 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
 
     }
 
-    private void formatData(ArrayList<ClickSave> clickSaves, int numOfValues, int type, final int indexSeq[]){
+    private void formatData(ArrayList<ClickSave> clickSaves, int numOfValues, int type){
 
         List<Entry> moyHours = new ArrayList<>();
+
+        moyHours.clear();
 
         if(clickSaves != null) {
             if (clickSaves.size() > 0) {
@@ -298,34 +285,32 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
                         int totalSmileJ = 0;
                         int totalMouepJ = 0;
                         int totalBadJ = 0;
+                        int index = -1;
                         for(int a = 0; a <7; a++) {//7 jours
                             int smile = 0;
                             int mouep = 0;
                             int bad = 0;
                             int count = 0;
-                            for (int i = 0; i < indexSeq[a]; i++) { //24 heures
-                                for (int j = 0; j < clickSaves.size(); j++) {
-                                    if (clickSaves.get(j).getHour() == i) {
-                                        smile += clickSaves.get(j).getSmile();
-                                        mouep += clickSaves.get(j).getMouep();
-                                        bad += clickSaves.get(j).getBad();
-                                        if (clickSaves.get(j).getSmile() != 0) {
-                                            count++;
-                                        }
-                                        if (clickSaves.get(j).getMouep() != 0) {
-                                            count++;
-                                        }
-                                        if (clickSaves.get(j).getBad() != 0) {
-                                            count++;
-                                        }
+                            for (index = index+1; index < clickSaves.size() && clickSaves.get(index).getHour() != Integer.MIN_VALUE ; index++) {
+                                    smile += clickSaves.get(index).getSmile();
+                                    mouep += clickSaves.get(index).getMouep();
+                                    bad += clickSaves.get(index).getBad();
+                                    if (clickSaves.get(index).getSmile() != 0) {
+                                        count++;
                                     }
-                                }
+                                    if (clickSaves.get(index).getMouep() != 0) {
+                                        count++;
+                                    }
+                                    if (clickSaves.get(index).getBad() != 0) {
+                                        count++;
+                                    }
                             }
                             totalSmileJ += smile;
                             totalMouepJ += mouep;
                             totalBadJ  += bad;
                             double moy = (1.0 * smile + 0.5 * mouep + 0.0 * bad) / (double) count;
                             moyHours.add(new Entry((float) a+1, (float) moy));
+                            System.out.println(moy);
                         }
                         smileText.setText(totalSmileJ+"");
                         mouepText.setText(totalMouepJ+"");
@@ -353,37 +338,33 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
                         int totalSmileM = 0;
                         int totalMouepM = 0;
                         int totalBadM = 0;
+                        int indexM = -1;
 
                         for(int a = 0; a < day; a++) {
                             int smile = 0;
                             int mouep = 0;
                             int bad = 0;
                             int count = 0;
-                            if(a < indexSeq.length) {
-                                for (int i = 0; i < indexSeq[a]; i++) { //24 heures
-                                    for (int j = 0; j < clickSaves.size(); j++) {
-                                        if (clickSaves.get(j).getHour() == i) {
-                                            smile += clickSaves.get(j).getSmile();
-                                            mouep += clickSaves.get(j).getMouep();
-                                            bad += clickSaves.get(j).getBad();
-                                            if (clickSaves.get(j).getSmile() != 0) {
-                                                count++;
-                                            }
-                                            if (clickSaves.get(j).getMouep() != 0) {
-                                                count++;
-                                            }
-                                            if (clickSaves.get(j).getBad() != 0) {
-                                                count++;
-                                            }
-                                        }
-                                    }
+                            for (indexM = indexM+1; indexM < clickSaves.size() && clickSaves.get(indexM).getHour() != Integer.MIN_VALUE ; indexM++) {
+                                smile += clickSaves.get(indexM).getSmile();
+                                mouep += clickSaves.get(indexM).getMouep();
+                                bad += clickSaves.get(indexM).getBad();
+                                if (clickSaves.get(indexM).getSmile() != 0) {
+                                    count++;
                                 }
-                                double moy = (1.0 * smile + 0.5 * mouep + 0.0 * bad) / (double) count;
-                                moyHours.add(new Entry((float) a + 1, (float) moy));
-                                totalSmileM += smile;
-                                totalMouepM += mouep;
-                                totalBadM  += bad;
+                                if (clickSaves.get(indexM).getMouep() != 0) {
+                                    count++;
+                                }
+                                if (clickSaves.get(indexM).getBad() != 0) {
+                                    count++;
+                                }
                             }
+                            System.out.println("month" + smile);
+                            double moy = (1.0 * smile + 0.5 * mouep + 0.0 * bad) / (double) count;
+                            moyHours.add(new Entry((float) a + 1, (float) moy));
+                            totalSmileM += smile;
+                            totalMouepM += mouep;
+                            totalBadM  += bad;
                         }
                         smileText.setText(totalSmileM+"");
                         mouepText.setText(totalMouepM+"");

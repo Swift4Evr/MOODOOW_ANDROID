@@ -18,5 +18,6 @@
         <activity android:name=".InteractActivity"/>
         <activity android:name=".InteractGraphActivity"/>
         <activity android:name=".InteractGraphsActivity"/>
+        <activity android:name=".ComsActivity"/>
     </application>
 </manifest>

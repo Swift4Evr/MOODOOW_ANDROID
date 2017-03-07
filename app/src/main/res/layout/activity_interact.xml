@@ -108,7 +108,8 @@
             android:minHeight="70dp"
             android:layout_weight="0"
             android:background="@drawable/out_grey_line"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/comsET"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -118,7 +119,8 @@
             android:padding="1dp"
             android:background="@drawable/out_grey_line"
             android:textSize="10sp"
-            android:text="Sauvegarder"/>
+            android:text="Sauvegarder"
+            android:onClick="saveComs"/>
 
         <Button
             android:layout_width="wrap_content"

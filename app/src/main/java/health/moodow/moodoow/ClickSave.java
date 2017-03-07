@@ -21,7 +21,10 @@ public class ClickSave {
     private int bad;
 
     public ClickSave(){
+    }
 
+    public ClickSave(int hour){
+        this.hour = hour;
     }
 
     public ClickSave(int id, String date, int hour, int smile, int mouep, int bad) {
