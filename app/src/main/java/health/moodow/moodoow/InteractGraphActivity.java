@@ -107,7 +107,6 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
         ArrayList<ClickSave> clickSaveTest = dataDAO.findDay(date);
 
 
-        int[] joursArray = new int[0];
         formatData(clickSaveTest, 23, 0);
 
         int smile = 0;

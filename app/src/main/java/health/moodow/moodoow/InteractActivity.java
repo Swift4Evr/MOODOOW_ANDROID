@@ -98,7 +98,7 @@ public class InteractActivity extends Activity {
 
         dateRecup = dateFormat.format(date);
         hour = Integer.parseInt(dateRecup.substring(dateRecup.length()-8, dateRecup.length()-6));
-        String date = dateRecup.substring(0,dateRecup.length()-3);
+        String date = dateRecup.substring(0,dateRecup.length()-9);
 
         System.out.println("hour"+hour);
 
@@ -121,6 +121,10 @@ public class InteractActivity extends Activity {
         //enregistrer les données actuelles
         //----
         dataDAO.create(clickSaveSave);
+
+        System.out.println("date" + date);
+
+        System.out.println(dataDAO.findDay(date).get(0).getSmile());
 
         ArrayList<ClickSave> clickSaveTest = dataDAO.findDay(date);
 
