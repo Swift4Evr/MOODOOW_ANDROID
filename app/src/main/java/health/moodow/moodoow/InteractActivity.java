@@ -29,7 +29,7 @@ public class InteractActivity extends Activity {
 
     /** gestion des dates */
     private Date date = new Date();
-    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH");
+    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     /** heure */
     private int hour;
@@ -97,9 +97,10 @@ public class InteractActivity extends Activity {
         int tag = Integer.parseInt(view.getTag().toString());
 
         dateRecup = dateFormat.format(date);
-        hour = Integer.parseInt(dateRecup.substring(dateRecup.length()-2,dateRecup.length()));
+        hour = Integer.parseInt(dateRecup.substring(dateRecup.length()-8, dateRecup.length()-6));
         String date = dateRecup.substring(0,dateRecup.length()-3);
 
+        System.out.println("hour"+hour);
 
         ClickSave clickSaveSave = new ClickSave();
         switch (tag) {
@@ -144,10 +145,10 @@ public class InteractActivity extends Activity {
         if(comsET.getText().toString().length() > 2){
 
             dateRecup = dateFormat.format(date);
-            hour = Integer.parseInt(dateRecup.substring(dateRecup.length()-2,dateRecup.length()));
+            String hourS = dateRecup.substring(dateRecup.length()-8,dateRecup.length());
             String date = dateRecup.substring(0,dateRecup.length()-3);
 
-            Coms coms = new Coms(-1, date, hour, comsET.getText().toString());
+            Coms coms = new Coms(-1, date, hourS, comsET.getText().toString());
 
             dataDAO.createComs(coms);
 

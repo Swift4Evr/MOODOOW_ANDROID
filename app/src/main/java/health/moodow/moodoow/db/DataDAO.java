@@ -122,7 +122,7 @@ public class DataDAO extends DAO {
 
             int id = curseur.getInt(0);
             String dateDB = curseur.getString(1);
-            int hourBD = curseur.getInt(2);
+            String hourBD = curseur.getString(2);
             String text = curseur.getString(3);
 
             Coms coms = new Coms(id, date, hourBD, text);

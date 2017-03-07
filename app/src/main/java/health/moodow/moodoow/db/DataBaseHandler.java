@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DataBaseHandler extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "database.db";
-    private static final int DATABASE_VERSION = 14;
+    private static final int DATABASE_VERSION = 15;
     public static final String TABLE_DROP_SAVE = "DROP TABLE IF EXISTS save;DROP TABLE IF EXISTS comms;";
 
 

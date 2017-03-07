@@ -13,12 +13,12 @@ public class Coms {
     private String date;
 
     /** heure */
-    private int hour;
+    private String hour;
 
     /** texte du commentaire */
     private String text;
 
-    public Coms(int id, String date, int hour, String text) {
+    public Coms(int id, String date, String hour, String text) {
         this.id = id;
         this.date = date;
         this.hour = hour;
@@ -33,7 +33,7 @@ public class Coms {
         this.date = date;
     }
 
-    public void setHour(int hour) {
+    public void setHour(String hour) {
         this.hour = hour;
     }
 
@@ -49,7 +49,7 @@ public class Coms {
         return date;
     }
 
-    public int getHour() {
+    public String getHour() {
         return hour;
     }
 
