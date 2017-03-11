@@ -4,12 +4,12 @@
     <string name="mdp_co">Mot de passe</string>
     <string name="co_bt_txt">Connexion</string>
     <string name="create_bt_txt">Créer un compte</string>
-    <string name="title_interact">Performance & Happiness Booster</string>
+    <string name="title_interact">Performance | Happiness Booster</string>
 
     <string-array name="range_array">
-        <item>Journée</item>
-        <item>Semaine</item>
-        <item>Mois</item>
+        <item>Journée v</item>
+        <item>Semaine v</item>
+        <item>Mois v</item>
     </string-array>
 
 </resources>
