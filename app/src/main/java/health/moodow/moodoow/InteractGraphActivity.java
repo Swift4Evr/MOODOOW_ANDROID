@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.content.res.TypedArrayUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -15,13 +14,10 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -96,6 +92,9 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
 
     }
 
+    /**
+     * calculer le nombre de mood et les affichers sur l'interface
+     */
     private void setMoodCount() {
 
         dataDAO.open();
@@ -105,7 +104,6 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
         String date = dateRecup.substring(0,dateRecup.length()-3);
 
         ArrayList<ClickSave> clickSaveTest = dataDAO.findDay(date);
-
 
         formatData(clickSaveTest, 23, 0);
 
@@ -182,10 +180,14 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
 
 
                     } else {
-                        dateToSearch = "0" + dayNumI + dateRecup.substring(2, 10);
+                        if(dayNumI<10) {
+                            dateToSearch = "0" + dayNumI + dateRecup.substring(2, 10);
+                        } else {
+                            dateToSearch = dayNumI + dateRecup.substring(2, 10);
+                        }
                     }
 
-                    System.out.println("dateToSearch "+dateToSearch);
+                    System.out.println("dateToSearcheeeeee "+dateToSearch);
 
                     ArrayList<ClickSave> newClickSave = dataDAO.findDay(dateToSearch);
 
@@ -201,8 +203,12 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
 
                     int dayNumI = dayNum-i;
 
-                    String dateToSearch = "0" + dayNumI + dateRecup.substring(2, 10);
-
+                    String dateToSearch = "";
+                    if(dayNumI<10) {
+                        dateToSearch = "0" + dayNumI + dateRecup.substring(2, 10);
+                    } else {
+                        dateToSearch = dayNumI + dateRecup.substring(2, 10);
+                    }
                     System.out.println("dateToSearch "+dateToSearch);
 
                     ArrayList<ClickSave> newClickSave = dataDAO.findDay(dateToSearch);
@@ -234,7 +240,7 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
 
         if(clickSaves != null) {
             if (clickSaves.size() > 0) {
-
+                double moyPerdiode = 0.0;
                 switch (type){
                     case 0:
                         int totalSmile = 0;
@@ -265,7 +271,13 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
                             totalMouep += mouep;
                             totalBad  += bad;
                             double moy = (1.0 * smile + 0.5 * mouep + 0.0 * bad) / (double) count;
-                            moyHours.add(new Entry((float) i, (float) moy));
+                            if(moy >= 0) {
+                                moyHours.add(new Entry((float) i, (float) moy));
+                                moyPerdiode = (moyPerdiode + moy)/2;
+                                changeSmiley(moyPerdiode);
+                            } else {
+                                moyHours.add(new Entry((float) i, -1000.0F));
+                            }
                         }
                         smileText.setText(totalSmile+"");
                         mouepText.setText(totalMouep+"");
@@ -308,8 +320,15 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
                             totalMouepJ += mouep;
                             totalBadJ  += bad;
                             double moy = (1.0 * smile + 0.5 * mouep + 0.0 * bad) / (double) count;
-                            moyHours.add(new Entry((float) a+1, (float) moy));
-                            System.out.println(moy);
+                            System.out.println("moy "+moy);
+                            if(moy >= 0) {
+                                moyHours.add(new Entry((float) a + 1, (float) moy));
+                                moyPerdiode = (moyPerdiode + moy)/2;
+                                changeSmiley(moyPerdiode);
+                            } else {
+                                moyHours.add(new Entry((float) a + 1, -1000.0F));
+                            }
+
                         }
                         smileText.setText(totalSmileJ+"");
                         mouepText.setText(totalMouepJ+"");
@@ -360,7 +379,13 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
                             }
                             System.out.println("month" + smile);
                             double moy = (1.0 * smile + 0.5 * mouep + 0.0 * bad) / (double) count;
-                            moyHours.add(new Entry((float) a + 1, (float) moy));
+                            if(moy >= 0) {
+                                moyHours.add(new Entry((float) a + 1, (float) moy));
+                                moyPerdiode = (moyPerdiode + moy)/2;
+                                changeSmiley(moyPerdiode);
+                            } else {
+                                moyHours.add(new Entry((float) a + 1, -1000.0F));
+                            }
                             totalSmileM += smile;
                             totalMouepM += mouep;
                             totalBadM  += bad;
@@ -385,8 +410,6 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
                 dataSet.setCircleColor(getResources().getColor(R.color.colorPrimary));
                 dataSet.setCircleHoleRadius(1f);
                 dataSet.setCircleRadius(4.0f);
-
-
                 dataSet.setDrawValues(false);
                 dataSet.setColor(getResources().getColor(R.color.colorPrimary));
 
@@ -398,6 +421,8 @@ public class InteractGraphActivity extends Activity implements AdapterView.OnIte
                 lineChart.getAxisLeft().setAxisMaximum(1f);
                 lineChart.getAxisLeft().setAxisMinimum(0f);
                 lineChart.getLegend().setEnabled(false);
+                lineChart.setVisibleYRangeMinimum(0.0f, lineChart.getAxisLeft().getAxisDependency());
+                lineChart.setVisibleYRangeMinimum(0.0f, lineChart.getAxisRight().getAxisDependency());
                 lineChart.setNoDataText("Aucune informations pour la période sélectionnée");
                 lineChart.setGridBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 lineChart.setDrawBorders(false);

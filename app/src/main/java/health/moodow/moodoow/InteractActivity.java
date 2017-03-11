@@ -34,6 +34,9 @@ public class InteractActivity extends Activity {
     /** heure */
     private int hour;
 
+    /** heure du dernier enregistrement */
+    private int lastHour = -1;
+
     /** date */
     private String dateRecup;
 
@@ -45,6 +48,8 @@ public class InteractActivity extends Activity {
 
     private SharedPreferences preferences;
 
+    /** moyenne de l'heure en cours */
+    private double moyDuMom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +63,6 @@ public class InteractActivity extends Activity {
         comsET = (EditText) findViewById(R.id.comsET);
 
         preferences = getSharedPreferences("preferences", MODE_PRIVATE);
-
-
     }
 
     /**
@@ -83,8 +86,6 @@ public class InteractActivity extends Activity {
 
     /**
      * Clic sur un btn "Mood"
-     * Ajoute +1 au compteur du mood
-     *
      * @param view mood btn
      */
     public void clickMood(View view) {
@@ -136,14 +137,22 @@ public class InteractActivity extends Activity {
             mouep += clickSaveTest.get(i).getMouep();
             bad += clickSaveTest.get(i).getBad();
         }
-        
-        double moyDuMom = (1.0*smile+0.5*mouep+0.0*bad)/clickSaveTest.size();
+
+        if(clickSaveTest.get(clickSaveTest.size()-1).getHour() != lastHour){
+            moyDuMom = (1.0*smile+0.5*mouep+0.0*bad)/clickSaveTest.size();
+        } else {
+            moyDuMom = (moyDuMom+(1.0*smile+0.5*mouep+0.0*bad)/clickSaveTest.size())/2;
+        }
+
+        changeSmiley(moyDuMom);
 
         System.out.println("moyenne de lheure en cours : " + moyDuMom);
-
-        //ajouterPreferences(mood, 1);
     }
 
+    /**
+     * Enregistrer le commentaire saisi dans la BD
+     * @param sender
+     */
     public void saveComs(View sender){
 
         if(comsET.getText().toString().length() > 2){
@@ -169,16 +178,16 @@ public class InteractActivity extends Activity {
 
 
     /**
-     * Ajoute des valeurs dans les preferences
-     *
-     * @param etat  key
-     * @param value value
+     * changer le smiley selon la moyenne
+     * @param moy moyenne
      */
-    private void ajouterPreferences(String etat, int value) {
-
-        int val = preferences.getInt(etat, 0);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt(etat, value + val);
-        editor.apply(); // Apply plutot que commit => asynchrone
+    public void changeSmiley(double moy){
+        if(moy< 0.4){
+            actuSmiley.setImageResource(R.drawable.bad);
+        } else if(moy < 0.6){
+            actuSmiley.setImageResource(R.drawable.mouep);
+        } else {
+            actuSmiley.setImageResource(R.drawable.smile);
+        }
     }
 }

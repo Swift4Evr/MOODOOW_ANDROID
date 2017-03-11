@@ -3,38 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:gravity="center"
     android:background="@color/lightGrey">
-
-    <ImageButton
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/menu_button"
-        android:background="@color/lightGrey"
-        android:scaleType="fitCenter"
-        android:layout_weight="0.53"/>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="7dp"
+        android:layout_marginLeft="4dp"
+        android:paddingLeft="4dp"
         android:src="@drawable/logo_no_fill"
-        android:scaleType="fitStart"
-        android:layout_weight="0.19"/>
+        android:scaleType="centerInside"
+        android:layout_weight="0.9"/>
 
-    <ImageButton
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.53"
-        android:background="@color/lightGrey"
-        android:scaleType="fitCenter"
-        android:src="@drawable/plus_button"/>
-
-    <ImageButton
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.53"
-        android:background="@color/lightGrey"
-        android:scaleType="fitCenter"
-        android:src="@drawable/option_button"/>
+        android:text="@string/title_interact"
+        android:gravity="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_weight="0.1"/>
 
 </LinearLayout>
